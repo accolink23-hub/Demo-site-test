@@ -3,14 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accolink - Stay Real. Travel Bold.</title>
+  <meta name="description" content="Accolink - Discover premium guesthouses across Botswana">
+  <meta name="theme-color" content="#0B3D2E">
+  
+  <title>Accolink - Find Your Perfect Escape in Botswana</title>
+  
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="https://bqaebgtvwxpdaqwdytss.supabase.co/storage/v1/object/public/company%20logo/accolink%20logo.png">
   <link rel="apple-touch-icon" href="https://bqaebgtvwxpdaqwdytss.supabase.co/storage/v1/object/public/company%20logo/accolink%20logo.png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0B3D2E">
-
-  <!-- Google Analytics -->
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZH2GH4D8JM"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -19,13 +23,8 @@
     gtag('config', 'G-ZH2GH4D8JM');
   </script>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Font Awesome for Social Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
+    /* ==================== RESET & VARIABLES ==================== */
     * {
       margin: 0;
       padding: 0;
@@ -35,277 +34,351 @@
     :root {
       --primary: #0B3D2E;
       --primary-dark: #061f19;
-      --primary-light: #1a6d4f;
-      --accent: #8b6f47;
-      --accent-light: #a68562;
-      --success: #25d366;
-      --bg: #f5f3f0;
+      --white: #FFFFFF;
       --text: #1a1a1a;
       --text-light: #666;
-      --border: #ddd;
-      --white: #ffffff;
-      --danger: #e74c3c;
+      --border: #e0e0e0;
+      --shadow: 0 4px 15px rgba(11, 61, 46, 0.1);
+      --shadow-hover: 0 8px 25px rgba(11, 61, 46, 0.15);
+      --transition: all 0.3s ease;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg);
+      background-color: #f8f9fa;
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; transition: var(--transition); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-    button {
-      cursor: pointer;
-      font-family: inherit;
-      border: none;
-    }
-
-    /* ==================== HEADER & NAVIGATION ==================== */
-    header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: var(--white);
-      padding: 12px 20px;
+    /* ==================== NAVBAR ==================== */
+    .navbar {
       position: sticky;
       top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background: var(--white);
+      box-shadow: var(--shadow);
+      z-index: 1000;
     }
 
-    .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 70px;
     }
 
-    .logo-section {
+    .navbar-logo {
       display: flex;
       align-items: center;
       gap: 12px;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
     }
 
     .logo-img {
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-    }
-
-    .logo-img img {
-      width: 100%;
-      height: 100%;
       object-fit: contain;
-      border-radius: 4px;
     }
 
-    .logo-text h1 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin: 0;
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
     }
 
-    .tagline {
-      font-size: 11px;
-      opacity: 0.85;
-      font-style: italic;
-      margin-top: 2px;
+    .nav-link {
+      color: var(--text);
+      font-weight: 500;
     }
 
-    /* ==================== SEARCH SECTION ==================== */
-    .search-container {
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--primary);
+      margin: 5px 0;
+    }
+
+    /* ==================== HERO SECTION ==================== */
+    .hero {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      padding: 30px 20px;
+      color: var(--white);
+      padding: 80px 20px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=600&fit=crop');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 40px;
+      opacity: 0.9;
     }
 
     .search-box {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 50px;
-      font-size: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: all 0.3s;
-    }
-
-    .search-box input:focus {
-      outline: none;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    }
-
-    /* ==================== CITY QUICK FILTER ==================== */
-    .city-filter {
-      background: var(--white);
-      padding: 20px;
       display: flex;
       gap: 10px;
-      overflow-x: auto;
+      max-width: 500px;
+      margin: 0 auto;
+      background: var(--white);
+      padding: 15px;
+      border-radius: 50px;
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
       justify-content: center;
+    }
+
+    .search-box select {
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .search-box select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .btn-search {
+      background: var(--primary);
+      color: var(--white);
+      padding: 10px 30px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .btn-search:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ==================== FEATURED CITIES SECTION ==================== */
+    .featured-cities {
+      padding: 60px 20px;
+      background: var(--white);
+    }
+
+    .featured-cities h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    .cities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .city-card {
+      position: relative;
+      height: 250px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .city-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .city-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .city-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(11, 61, 46, 0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      color: var(--white);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .city-card:hover .city-overlay {
+      opacity: 1;
+    }
+
+    .city-overlay h3 {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    /* ==================== GUESTHOUSES SECTION ==================== */
+    .guesthouses-section {
+      padding: 60px 20px;
+      background: #f8f9fa;
+    }
+
+    .guesthouses-section h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 40px;
       flex-wrap: wrap;
     }
 
-    .city-btn {
-      padding: 10px 20px;
-      background: var(--bg);
+    .filter-btn {
+      padding: 8px 20px;
       border: 2px solid var(--border);
       border-radius: 25px;
-      font-weight: 600;
+      background: var(--white);
       color: var(--text);
-      transition: all 0.3s;
-      white-space: nowrap;
+      font-weight: 600;
+      font-size: 14px;
     }
 
-    .city-btn:hover,
-    .city-btn.active {
+    .filter-btn:hover,
+    .filter-btn.active {
       background: var(--primary);
       color: var(--white);
       border-color: var(--primary);
     }
 
-    /* ==================== CONTAINER & MAIN ==================== */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    main {
-      min-height: calc(100vh - 200px);
-      padding: 40px 20px;
-    }
-
-    .section-title {
-      font-size: 28px;
-      color: var(--primary);
-      margin-bottom: 30px;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    /* ==================== CITY SECTIONS ==================== */
-    .city-section {
-      margin-bottom: 50px;
-    }
-
-    .city-section-title {
-      font-size: 22px;
-      color: var(--primary);
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 3px solid var(--accent);
-      display: inline-block;
-    }
-
-    /* ==================== GUESTHOUSE GRID ==================== */
+    /* Responsive Grid */
     .guesthouses-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 25px;
+      gap: 16px;
       margin-bottom: 40px;
     }
 
-    @media (min-width: 768px) {
+    @media (max-width: 480px) {
       .guesthouses-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
       }
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 481px) and (max-width: 768px) {
       .guesthouses-grid {
         grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    /* ==================== CARD STYLES ==================== */
-    .card {
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .guesthouses-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .guesthouses-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    /* ==================== GUESTHOUSE CARD ==================== */
+    .guesthouse-card {
       background: var(--white);
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
       display: flex;
       flex-direction: column;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .card:hover {
-      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-      transform: translateY(-6px);
-    }
-
-    .card-image-container {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      background: var(--border);
-    }
-
-    .card-image {
-      width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s;
     }
 
-    .card:hover .card-image {
+    .guesthouse-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    .guesthouse-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .guesthouse-card:hover .guesthouse-image {
       transform: scale(1.05);
     }
 
-    .card-rating {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0,0,0,0.7);
-      color: var(--white);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .card-content {
-      padding: 18px;
-      flex-grow: 1;
+    .guesthouse-content {
+      padding: 16px;
+      flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    .card-title {
-      font-size: 18px;
+    .guesthouse-name {
+      font-size: 16px;
       font-weight: 700;
       color: var(--primary);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       line-height: 1.3;
     }
 
-    .card-location {
+    .guesthouse-city {
       font-size: 13px;
       color: var(--text-light);
       margin-bottom: 12px;
@@ -314,134 +387,440 @@
       gap: 6px;
     }
 
-    .card-price {
+    .location-pin {
+      color: var(--primary);
+      font-size: 16px;
+    }
+
+    .guesthouse-price {
       font-size: 18px;
       font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .amenities {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+      color: var(--primary);
       margin-bottom: 12px;
     }
 
-    .amenity-tag {
-      font-size: 11px;
+    .btn-view-more {
       background: var(--primary);
       color: var(--white);
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: auto;
-    }
-
-    .card-action-btn {
-      flex: 1;
-      padding: 10px 12px;
+      padding: 10px;
       border-radius: 6px;
+      font-weight: 600;
       font-size: 13px;
-      font-weight: 700;
-      transition: all 0.3s;
-      border: none;
-      cursor: pointer;
+      margin-top: auto;
+      text-align: center;
     }
 
-    .card-view-btn {
-      background: var(--primary);
-      color: var(--white);
-    }
-
-    .card-view-btn:hover {
+    .btn-view-more:hover {
       background: var(--primary-dark);
     }
 
-    .card-book-btn {
-      background: var(--accent);
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: var(--text-light);
+    }
+
+    /* ==================== LOAD MORE BUTTON ==================== */
+    .load-more-container {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .btn-load-more {
+      background: var(--primary);
       color: var(--white);
+      padding: 14px 40px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: var(--shadow);
     }
 
-    .card-book-btn:hover {
-      background: var(--accent-light);
+    .btn-load-more:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
     }
 
-    /* ==================== MODAL STYLES ==================== */
-    .modal-overlay {
+    /* ==================== DETAIL MODAL ==================== */
+    .modal {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 9999;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .modal-box {
-      background: var(--white);
-      padding: 30px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 450px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-      animation: slideUp 0.3s ease;
-      max-height: 90vh;
       overflow-y: auto;
     }
 
-    @keyframes slideUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .modal-header {
+    .modal.active {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 2px solid var(--border);
     }
 
-    .modal-header h3 {
-      font-size: 22px;
-      color: var(--primary);
-      margin: 0;
+    .modal-content {
+      background: var(--white);
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      padding: 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
     }
 
     .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       font-size: 28px;
-      color: var(--text-light);
+      color: var(--primary);
       cursor: pointer;
-      background: none;
-      transition: color 0.3s;
-      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
     }
 
     .modal-close:hover {
+      background: var(--white);
+    }
+
+    /* ==================== CAROUSEL ==================== */
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .carousel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--white);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      z-index: 5;
+      font-size: 18px;
+    }
+
+    .carousel-nav:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .carousel-prev {
+      left: 10px;
+    }
+
+    .carousel-next {
+      right: 10px;
+    }
+
+    .carousel-counter {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: var(--white);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      z-index: 5;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      padding: 12px;
+      background: #f9f9f9;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* ==================== DETAIL CONTENT ==================== */
+    .detail-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .detail-location {
+      font-size: 14px;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .detail-price {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .detail-body {
+      padding: 20px;
+    }
+
+    .detail-section {
+      margin-bottom: 20px;
+    }
+
+    .detail-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .detail-description {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .amenities-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .amenity-badge {
+      background: #f0f0f0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
       color: var(--text);
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 10px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      background: #f9f9f9;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: var(--white);
+    }
+
+    .btn-whatsapp:hover {
+      background: #20ba5a;
+    }
+
+    .btn-call {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-call:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ==================== ABOUT SECTION ==================== */
+    .about-section {
+      padding: 60px 20px;
+      background: var(--white);
+    }
+
+    .about-section h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    .about-content p {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      line-height: 1.8;
+    }
+
+    .about-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .feature i {
+      font-size: 36px;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .feature h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    /* ==================== CONTACT SECTION ==================== */
+    .contact-section {
+      padding: 60px 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+    }
+
+    .contact-section h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .contact-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .contact-info h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .contact-info p {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-info a {
+      color: var(--white);
+      text-decoration: underline;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      font-size: 24px;
+      transition: var(--transition);
+    }
+
+    .social-icon:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .contact-message {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      gap: 16px;
+    }
+
+    .contact-message p {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* ==================== FOOTER ==================== */
+    .footer {
+      background: var(--primary-dark);
+      color: var(--white);
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--white);
+      text-decoration: underline;
+    }
+
+    /* ==================== LEAD MODAL ==================== */
+    .privacy-notice {
+      background: #f0f7ff;
+      border-left: 3px solid var(--primary);
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 20px;
     }
 
     .form-group {
@@ -458,11 +837,10 @@
 
     .form-group input {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 15px;
-      transition: border-color 0.3s;
+      border-radius: 6px;
+      font-size: 14px;
       font-family: inherit;
     }
 
@@ -472,1214 +850,661 @@
       box-shadow: 0 0 0 3px rgba(11, 61, 46, 0.1);
     }
 
-    .modal-note {
-      font-size: 12px;
-      color: var(--text-light);
-      margin-bottom: 20px;
-      padding: 12px;
-      background: var(--bg);
-      border-radius: 6px;
-      border-left: 3px solid var(--accent);
-    }
-
-    .privacy-notice {
-      font-size: 11px;
-      color: var(--text-light);
-      margin-bottom: 20px;
-      padding: 12px;
-      background: #f0f7ff;
-      border-radius: 6px;
-      border-left: 3px solid #3498db;
-      line-height: 1.5;
-    }
-
-    .privacy-notice strong {
-      color: var(--primary);
-    }
-
     .btn-submit {
       width: 100%;
       background: var(--primary);
       color: var(--white);
-      padding: 14px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 16px;
-      transition: all 0.3s;
-      cursor: pointer;
-      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-top: 10px;
     }
 
     .btn-submit:hover {
       background: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(11, 61, 46, 0.3);
     }
 
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .modal-cancel {
+    .btn-close {
       width: 100%;
+      background: var(--border);
+      color: var(--text);
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 600;
       margin-top: 10px;
-      background: var(--bg);
-      color: var(--text);
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      transition: all 0.3s;
     }
 
-    .modal-cancel:hover {
-      background: var(--border);
-    }
-
-    /* ==================== DETAIL VIEW MODAL ==================== */
-    .detail-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 200;
-      overflow-y: auto;
+    .modal-body {
       padding: 20px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .detail-overlay.active {
-      display: block;
-    }
-
-    .detail-view {
-      background: var(--white);
-      margin: 20px auto;
-      border-radius: 16px;
-      max-width: 1000px;
-      animation: slideUp 0.3s ease;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      overflow: hidden;
-    }
-
-    .detail-header {
-      position: sticky;
-      top: 0;
-      background: var(--white);
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-    }
-
-    .detail-back-btn {
-      padding: 8px 16px;
-      background: var(--primary);
-      color: var(--white);
-      border-radius: 6px;
       font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: none;
-    }
-
-    .detail-back-btn:hover {
-      background: var(--primary-dark);
-    }
-
-    .detail-close-btn {
-      font-size: 28px;
-      color: var(--text-light);
-      cursor: pointer;
-      background: none;
-      border: none;
-      transition: color 0.3s;
-      padding: 0;
-      line-height: 1;
-    }
-
-    .detail-close-btn:hover {
-      color: var(--text);
-    }
-
-    .detail-content {
-      padding: 24px;
-    }
-
-    /* ==================== CAROUSEL STYLES ==================== */
-    .carousel {
-      margin-bottom: 24px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--border);
-    }
-
-    .carousel-main {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--border);
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .carousel-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
-
-    .carousel-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.6);
-      color: var(--white);
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: none;
-      font-size: 20px;
-      z-index: 10;
-    }
-
-    .carousel-nav:hover {
-      background: rgba(0,0,0,0.9);
-    }
-
-    .carousel-prev {
-      left: 12px;
-    }
-
-    .carousel-next {
-      right: 12px;
-    }
-
-    .carousel-counter {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background: rgba(0,0,0,0.7);
-      color: var(--white);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .carousel-main {
-      touch-action: pan-y;
-    }
-
-    .carousel-thumbnails {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 8px 0;
-      scroll-behavior: smooth;
-    }
-
-    .carousel-thumbnails::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .carousel-thumbnails::-webkit-scrollbar-track {
-      background: var(--bg);
-      border-radius: 3px;
-    }
-
-    .carousel-thumbnails::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 3px;
-    }
-
-    .carousel-thumbnails::-webkit-scrollbar-thumb:hover {
-      background: var(--text-light);
-    }
-
-    .thumbnail {
-      flex-shrink: 0;
-      width: 70px;
-      height: 70px;
-      border: 2px solid transparent;
-      border-radius: 6px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: var(--border);
-    }
-
-    .thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .thumbnail.active {
-      border-color: var(--primary);
-      box-shadow: 0 0 8px rgba(11, 61, 46, 0.4);
-    }
-
-    /* ==================== DETAIL INFO STYLES ==================== */
-    .detail-title {
-      font-size: 32px;
-      color: var(--primary);
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .detail-location {
-      font-size: 16px;
-      color: var(--text-light);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .detail-price-badge {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--white);
-      padding: 8px 16px;
-      border-radius: 25px;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .detail-description {
-      font-size: 15px;
       color: var(--text-light);
       line-height: 1.8;
-      margin-bottom: 24px;
     }
 
-    .detail-subtitle {
-      font-size: 20px;
-      color: var(--primary);
-      margin: 28px 0 16px 0;
-      font-weight: 700;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--accent);
-    }
-
-    /* ==================== AMENITIES & FEATURES ==================== */
-    .amenities-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .amenity-badge {
-      padding: 12px;
-      background: var(--bg);
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      color: var(--primary);
-      font-size: 13px;
-      font-weight: 600;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .amenity-badge:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(11, 61, 46, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* ==================== ROOM TYPES ==================== */
-    .rooms-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .room-card {
-      padding: 16px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      background: var(--bg);
-      transition: all 0.3s;
-    }
-
-    .room-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 6px 16px rgba(139, 111, 71, 0.12);
-      transform: translateY(-4px);
-    }
-
-    .room-card h4 {
-      color: var(--primary);
-      margin-bottom: 8px;
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    .room-card p {
-      font-size: 13px;
-      color: var(--text-light);
-      margin-bottom: 4px;
-    }
-
-    .room-price {
+    .modal-body h3 {
       font-size: 16px;
-      font-weight: 700;
-      color: var(--accent);
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid var(--border);
+      color: var(--primary);
+      margin: 16px 0 8px 0;
     }
 
-    /* ==================== CONTACT SECTION ==================== */
-    .contact-section {
-      margin-top: 32px;
-      padding: 24px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-radius: 12px;
-      color: var(--white);
-    }
-
-    .contact-section h3 {
-      color: var(--white);
-      margin-bottom: 8px;
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .contact-section p {
-      margin-bottom: 20px;
-      opacity: 0.95;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .contact-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .contact-btn {
-      flex: 1;
-      min-width: 150px;
-      padding: 12px 20px;
-      color: var(--white);
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: none;
-    }
-
-    .contact-btn-whatsapp {
-      background: var(--success);
-      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-    }
-
-    .contact-btn-whatsapp:hover {
-      background: #20ba5a;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
-    }
-
-    .contact-btn-email {
-      background: #3498db;
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-    }
-
-    .contact-btn-email:hover {
-      background: #2980b9;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
-    }
-
-    .contact-btn-phone {
-      background: var(--accent);
-      box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3);
-    }
-
-    .contact-btn-phone:hover {
-      background: var(--accent-light);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(139, 111, 71, 0.4);
-    }
-
-    .social-links {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .social-link {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      color: var(--white);
-      transition: all 0.3s;
-      cursor: pointer;
-      font-size: 18px;
-      border: none;
-    }
-
-    .social-link:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
-    }
-
-    /* ==================== FOOTER ==================== */
-    footer {
-      background: var(--primary);
-      color: var(--white);
-      padding: 40px 20px;
-      margin-top: 60px;
-    }
-
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-
-    .footer-section h4 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--white);
-    }
-
-    .footer-section ul {
-      list-style: none;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 8px;
-    }
-
-    .footer-section ul li a {
-      color: rgba(255, 255, 255, 0.8);
-      transition: color 0.3s;
-      font-size: 14px;
-    }
-
-    .footer-section ul li a:hover {
-      color: var(--white);
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
-    .footer-social-link {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      color: var(--white);
-      transition: all 0.3s;
-      cursor: pointer;
-      font-size: 18px;
-      border: none;
-    }
-
-    .footer-social-link:hover {
-      background: var(--accent);
-      transform: translateY(-3px);
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      padding-top: 20px;
-      text-align: center;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-light);
-      font-size: 16px;
+    .modal-body p {
+      margin-bottom: 12px;
     }
 
     /* ==================== RESPONSIVE ==================== */
     @media (max-width: 768px) {
-      .guesthouses-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .carousel-main {
-        aspect-ratio: 4/3;
-      }
-
-      .detail-title {
-        font-size: 24px;
-      }
-
-      .contact-buttons {
+      .hamburger { display: flex; }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
         flex-direction: column;
+        background: var(--white);
+        box-shadow: var(--shadow);
       }
-
-      .contact-btn {
-        width: 100%;
-        flex: none;
-      }
-
-      .detail-content {
-        padding: 16px;
-      }
-
-      .modal-box {
-        padding: 20px;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-subtitle {
-        font-size: 18px;
-      }
-
-      .amenities-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .logo-text h1 {
-        font-size: 20px;
-      }
+      .nav-menu.active { display: flex; }
+      .nav-link { padding: 15px 20px; border-bottom: 1px solid var(--border); display: block; }
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      .search-box { max-width: 100%; }
+      .hero { padding: 60px 20px; }
+      .cities-grid { grid-template-columns: repeat(2, 1fr); }
+      .featured-cities h2, .guesthouses-section h2, .about-section h2, .contact-section h2 { font-size: 28px; }
+      .carousel { height: 200px; }
     }
 
     @media (max-width: 480px) {
-      .header-content {
-        gap: 8px;
-      }
-
-      .logo-text h1 {
-        font-size: 18px;
-      }
-
-      .section-title {
-        font-size: 22px;
-      }
-
-      .detail-title {
-        font-size: 20px;
-      }
-
-      .detail-subtitle {
-        font-size: 16px;
-      }
-
-      .carousel-thumbnails {
-        gap: 6px;
-      }
-
-      .thumbnail {
-        width: 60px;
-        height: 60px;
-      }
+      .navbar-container { height: 60px; padding: 0 15px; }
+      .navbar-logo { gap: 8px; font-size: 18px; }
+      .logo-img { width: 32px; height: 32px; }
+      .hero { padding: 40px 15px; }
+      .hero h1 { font-size: 24px; }
+      .hero p { font-size: 14px; margin-bottom: 30px; }
+      .search-box { padding: 12px; flex-direction: column; }
+      .search-box select { width: 100%; }
+      .btn-search { width: 100%; }
+      .featured-cities, .guesthouses-section, .about-section, .contact-section { padding: 40px 15px; }
+      .cities-grid { grid-template-columns: 1fr; }
+      .city-card { height: 200px; }
+      .guesthouse-image { height: 140px; }
+      .guesthouse-name { font-size: 14px; }
+      .modal-content { max-width: 90vw; max-height: 95vh; }
+      .carousel { height: 180px; }
+      .detail-actions { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ==================== HEADER ==================== -->
-  <header>
-    <div class="header-content">
-      <div class="logo-section">
-        <div class="logo-img">
-          <img src="https://bqaebgtvwxpdaqwdytss.supabase.co/storage/v1/object/public/company%20logo/accolink%20logo.png" alt="Accolink Logo">
-        </div>
-        <div class="logo-text">
-          <h1>Accolink</h1>
-          <div class="tagline">Stay Real. Travel Bold.</div>
-        </div>
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <img src="https://bqaebgtvwxpdaqwdytss.supabase.co/storage/v1/object/public/company%20logo/accolink%20logo.png" alt="Accolink" class="logo-img">
+        <span>Accolink</span>
       </div>
+      
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#cities" class="nav-link">Cities</a></li>
+        <li><a href="#guesthouses" class="nav-link">Guesthouses</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
     </div>
-  </header>
+  </nav>
 
-  <!-- ==================== SEARCH ==================== -->
-  <div class="search-container">
-    <div class="container">
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Find Your Perfect Escape</h1>
+      <p>Discover Guesthouses Across Botswana</p>
+      
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search by name or city..." onkeyup="filterGuesthouses()">
+        <select id="searchCity" onchange="filterByCity(this.value)">
+          <option value="">All Cities</option>
+          <option value="Kasane">Kasane</option>
+          <option value="Maun">Maun</option>
+          <option value="Gaborone">Gaborone</option>
+          <option value="Francistown">Francistown</option>
+          <option value="Selibe Phikwe">Selibe Phikwe</option>
+        </select>
+        <button class="btn-search" onclick="document.getElementById('guesthouses').scrollIntoView({behavior: 'smooth'})">
+          <i class="fas fa-search"></i> Search
+        </button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ==================== CITY FILTER ==================== -->
-  <div class="city-filter">
-    <button class="city-btn active" onclick="filterByCity('all')">All Cities</button>
-    <button class="city-btn" onclick="filterByCity('Kasane')">Kasane</button>
-    <button class="city-btn" onclick="filterByCity('Maun')">Maun</button>
-    <button class="city-btn" onclick="filterByCity('Gaborone')">Gaborone</button>
-    <button class="city-btn" onclick="filterByCity('Francistown')">Francistown</button>
-  </div>
-
-  <!-- ==================== MAIN CONTENT ==================== -->
-  <main class="container">
-    <h2 class="section-title">Featured Guesthouses</h2>
-    <div id="guesthouses" class="guesthouses-grid"></div>
-    <div style="text-align: center; margin-top: 40px;">
-      <button class="load-more-btn" onclick="loadMore()" style="padding: 14px 50px; background: var(--primary); color: var(--white); border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer; border: none; transition: all 0.3s; display: none;" id="loadMoreBtn">Load More Guesthouses</button>
+  <!-- ==================== FEATURED CITIES SECTION ==================== -->
+  <section class="featured-cities" id="cities">
+    <div class="container">
+      <h2>Popular Destinations</h2>
+      <div class="cities-grid">
+        <div class="city-card" onclick="filterByCity('Kasane')">
+          <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400&h=300&fit=crop" alt="Kasane">
+          <div class="city-overlay">
+            <h3>Kasane</h3>
+            <p>Safari & Adventure</p>
+          </div>
+        </div>
+        
+        <div class="city-card" onclick="filterByCity('Maun')">
+          <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop" alt="Maun">
+          <div class="city-overlay">
+            <h3>Maun</h3>
+            <p>Gateway to Delta</p>
+          </div>
+        </div>
+        
+        <div class="city-card" onclick="filterByCity('Gaborone')">
+          <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop" alt="Gaborone">
+          <div class="city-overlay">
+            <h3>Gaborone</h3>
+            <p>Urban Comfort</p>
+          </div>
+        </div>
+        
+        <div class="city-card" onclick="filterByCity('Francistown')">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Francistown">
+          <div class="city-overlay">
+            <h3>Francistown</h3>
+            <p>Heritage & Culture</p>
+          </div>
+        </div>
+        
+        <div class="city-card" onclick="filterByCity('Selibe Phikwe')">
+          <img src="https://images.unsplash.com/photo-1551525881-721f8b3ace16?w=400&h=300&fit=crop" alt="Selibe Phikwe">
+          <div class="city-overlay">
+            <h3>Selibe Phikwe</h3>
+            <p>Hidden Gem</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
+  </section>
 
-  <!-- ==================== BOOKING MODAL ==================== -->
-  <div id="bookingModal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Complete Your Details</h3>
-        <button class="modal-close" onclick="closeBookingModal()">×</button>
+  <!-- ==================== GUESTHOUSE LISTINGS ==================== -->
+  <section class="guesthouses-section" id="guesthouses">
+    <div class="container">
+      <h2>Available Guesthouses</h2>
+      
+      <div class="filter-tabs">
+        <button class="filter-btn active" onclick="filterByCity('all')">All</button>
+        <button class="filter-btn" onclick="filterByCity('Kasane')">Kasane</button>
+        <button class="filter-btn" onclick="filterByCity('Maun')">Maun</button>
+        <button class="filter-btn" onclick="filterByCity('Gaborone')">Gaborone</button>
+        <button class="filter-btn" onclick="filterByCity('Francistown')">Francistown</button>
+        <button class="filter-btn" onclick="filterByCity('Selibe Phikwe')">Selibe Phikwe</button>
       </div>
       
-      <div class="privacy-notice">
-        <strong>🔒 Your Privacy:</strong> We collect your details only to connect you with the guesthouse. Your data is never shared with third parties and is stored securely.
+      <div class="guesthouses-grid" id="guesthousesGrid">
+        <div class="loading">Loading guesthouses...</div>
       </div>
 
-      <div class="form-group">
-        <label for="firstName">First Name *</label>
-        <input type="text" id="firstName" placeholder="Enter your first name" required>
+      <div class="load-more-container">
+        <button class="btn-load-more" id="loadMoreBtn" onclick="loadMore()" style="display: none;">
+          Load More Guesthouses
+        </button>
       </div>
-      <div class="form-group">
-        <label for="lastName">Last Name *</label>
-        <input type="text" id="lastName" placeholder="Enter your last name" required>
-      </div>
-      <div class="form-group">
-        <label for="phoneNumber">Phone Number *</label>
-        <input type="tel" id="phoneNumber" placeholder="e.g., +267 76 123456" required>
-      </div>
-      
-      <button class="btn-submit" onclick="submitBooking()">Proceed with Booking</button>
-      <button class="modal-cancel" onclick="closeBookingModal()">Cancel</button>
     </div>
-  </div>
+  </section>
 
-  <!-- ==================== DETAIL VIEW MODAL ==================== -->
-  <div id="detailOverlay" class="detail-overlay">
-    <div class="detail-view" id="detailView"></div>
-  </div>
+  <!-- ==================== ABOUT SECTION ==================== -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="about-content">
+        <h2>About Accolink</h2>
+        <p>We created Accolink because finding authentic guesthouses shouldn't be complicated. We connect travelers with genuine local hospitality across Botswana. Real stays. Real people. Real experiences.</p>
+        
+        <div class="about-features">
+          <div class="feature">
+            <i class="fas fa-map-location-dot"></i>
+            <h3>Explore All Cities</h3>
+            <p>Discover guesthouses across Kasane, Maun, Gaborone, Francistown, and Selibe Phikwe.</p>
+          </div>
+          
+          <div class="feature">
+            <i class="fas fa-shield-halved"></i>
+            <h3>Secure Booking</h3>
+            <p>Your data is protected and never shared. Direct connection with guesthouse owners.</p>
+          </div>
+          
+          <div class="feature">
+            <i class="fas fa-mobile"></i>
+            <h3>Mobile First</h3>
+            <p>Book on the go. Our app works offline and installs on your home screen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <h2>Get In Touch</h2>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h3>Contact Accolink</h3>
+          <p><i class="fas fa-envelope"></i> <a href="mailto:accolink23@gmail.com">accolink23@gmail.com</a></p>
+          <p><i class="fas fa-phone"></i> <a href="tel:+267 76233718">+267 76233718</a></p>
+          <p><i class="fas fa-whatsapp"></i> <a href="https://wa.me/26776233718">WhatsApp: +267 76233718</a></p>
+          
+          <h3 style="margin-top: 20px;">Follow Us</h3>
+          <div class="social-links">
+            <a href="https://instagram.com/accolink" target="_blank" title="Instagram" class="social-icon">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://facebook.com/accolink" target="_blank" title="Facebook" class="social-icon">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://tiktok.com/@accolink" target="_blank" title="TikTok" class="social-icon">
+              <i class="fab fa-tiktok"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="contact-message">
+          <p>📍 Serving guesthouses across Botswana</p>
+          <p>✨ Stay Real. Travel Bold.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer>
-    <div class="footer-content">
-      <!-- About Section -->
-      <div class="footer-section">
-        <h4>About Accolink</h4>
-        <p style="font-size: 13px; color: rgba(255, 255, 255, 0.8); line-height: 1.7; margin-bottom: 12px;">
-          We created Accolink because finding authentic guesthouses shouldn't be complicated. We connect travelers with genuine local hospitality across Botswana. Real stays. Real people. Real experiences.
-        </p>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#guesthouses">Browse Guesthouses</a></li>
-          <li><a href="#" onclick="scrollToAbout()">About Us</a></li>
-          <li><a href="tel:+267 76233718">Contact: +267 76233718</a></li>
-          <li><a href="#" onclick="showPrivacy()">Privacy Policy</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact & Social -->
-      <div class="footer-section">
-        <h4>Connect With Us</h4>
-        <p style="font-size: 13px; color: rgba(255, 255, 255, 0.8); margin-bottom: 12px;">
-          📞 +267 76233718<br>
-          💬 WhatsApp: +267 76233718
-        </p>
-        <h4 style="margin-top: 16px;">Follow On Social</h4>
-        <div class="footer-social">
-          <a href="https://www.facebook.com/accolink" target="_blank" class="footer-social-link" title="Facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="https://www.instagram.com/accolink" target="_blank" class="footer-social-link" title="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://www.tiktok.com/@accolink" target="_blank" class="footer-social-link" title="TikTok">
-            <i class="fab fa-tiktok"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>&copy; 2026 Accolink. All rights reserved. | <a href="#" onclick="showPrivacy()" style="color: rgba(255,255,255,0.8); text-decoration: underline;">Privacy Policy</a> | Premium Guesthouse Booking Platform</p>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Accolink. All rights reserved.</p>
+      <p><a href="#" onclick="showPrivacy()">Privacy Policy</a> | <a href="#" onclick="showTerms()">Terms of Service</a></p>
     </div>
   </footer>
 
-  <!-- ==================== PRIVACY POLICY MODAL ==================== -->
-  <div id="privacyModal" class="modal-overlay">
-    <div class="modal-box" style="max-width: 600px;">
-      <div class="modal-header">
-        <h3>Privacy Policy</h3>
-        <button class="modal-close" onclick="closePrivacy()">×</button>
-      </div>
+  <!-- ==================== DETAIL MODAL ==================== -->
+  <div class="modal" id="detailModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeDetailModal()">&times;</button>
       
-      <div class="detail-content">
-        <h4 style="color: var(--primary); margin-bottom: 12px; font-weight: 700;">Data We Collect</h4>
-        <p style="font-size: 13px; color: var(--text-light); margin-bottom: 16px; line-height: 1.6;">
-          When you use Accolink to book guesthouses, we collect your first name, last name, and phone number. This information is used solely to connect you with the guesthouse of your choice.
-        </p>
-
-        <h4 style="color: var(--primary); margin-bottom: 12px; font-weight: 700;">How We Use Your Data</h4>
-        <p style="font-size: 13px; color: var(--text-light); margin-bottom: 16px; line-height: 1.6;">
-          Your data is:
-          <br>✓ Stored securely on our Supabase database
-          <br>✓ Never shared with third parties
-          <br>✓ Used only to facilitate your booking request
-          <br>✓ Deleted upon request
-        </p>
-
-        <h4 style="color: var(--primary); margin-bottom: 12px; font-weight: 700;">Your Rights</h4>
-        <p style="font-size: 13px; color: var(--text-light); margin-bottom: 16px; line-height: 1.6;">
-          You have the right to request deletion of your data at any time. Contact us at +267 76233718 for any privacy concerns.
-        </p>
-
-        <h4 style="color: var(--primary); margin-bottom: 12px; font-weight: 700;">Contact Us</h4>
-        <p style="font-size: 13px; color: var(--text-light); line-height: 1.6;">
-          📞 Phone: +267 76233718<br>
-          💬 WhatsApp: +267 76233718
-        </p>
+      <div class="carousel" id="carouselContainer">
+        <img id="carouselImage" src="" alt="Guesthouse" class="carousel-image">
+        <div class="carousel-nav carousel-prev" onclick="prevImage()">❮</div>
+        <div class="carousel-nav carousel-next" onclick="nextImage()">❯</div>
+        <div class="carousel-counter"><span id="imageCounter">1</span>/<span id="imageTotalCounter">1</span></div>
       </div>
 
-      <button class="modal-cancel" onclick="closePrivacy()" style="margin-top: 20px;">Close</button>
+      <div class="carousel-dots" id="carouselDots"></div>
+
+      <div class="detail-header">
+        <h2 class="detail-title" id="detailName"></h2>
+        <p class="detail-location">
+          <span class="location-pin">📍</span>
+          <span id="detailCity"></span>
+        </p>
+        <p class="detail-price">P<span id="detailPrice"></span>/night</p>
+      </div>
+
+      <div class="detail-body">
+        <div class="detail-section">
+          <h3>About</h3>
+          <p class="detail-description" id="detailDescription"></p>
+        </div>
+
+        <div class="detail-section">
+          <h3>Amenities</h3>
+          <div class="amenities-list" id="detailAmenities"></div>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <button class="btn-action btn-whatsapp" onclick="prepareBooking('whatsapp')">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </button>
+        <button class="btn-action btn-call" onclick="prepareBooking('call')">
+          <i class="fas fa-phone"></i> Call
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- ==================== SCRIPTS ==================== -->
+  <!-- ==================== LEAD CAPTURE MODAL ==================== -->
+  <div class="modal" id="leadModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeLeadModal()">&times;</button>
+      <div style="padding: 20px;">
+        <h2 style="font-size: 24px; color: var(--primary); margin-bottom: 20px;">Complete Your Details</h2>
+        
+        <div class="privacy-notice">
+          🔒 <strong>Your Privacy:</strong> We collect your details only to connect you with the guesthouse. Your data is never shared with third parties.
+        </div>
+        
+        <form id="leadForm" onsubmit="submitLead(event)">
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number *</label>
+            <input type="tel" id="phoneNumber" required>
+          </div>
+          
+          <button type="submit" class="btn-submit">Continue to Booking</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PRIVACY MODAL ==================== -->
+  <div class="modal" id="privacyModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePrivacy()">&times;</button>
+      <div style="padding: 20px;">
+        <h2 style="font-size: 24px; color: var(--primary); margin-bottom: 20px;">Privacy Policy</h2>
+        
+        <div class="modal-body">
+          <h3>Data We Collect</h3>
+          <p>When you use Accolink to book guesthouses, we collect your first name, last name, and phone number. This information is used solely to connect you with the guesthouse of your choice.</p>
+          
+          <h3>How We Use Your Data</h3>
+          <p>Your data is stored securely and never shared with third parties. We use it only to facilitate your booking request.</p>
+          
+          <h3>Your Rights</h3>
+          <p>You have the right to request deletion of your data at any time. Contact us at accolink23@gmail.com for any privacy concerns.</p>
+          
+          <h3>Contact</h3>
+          <p>📧 Email: accolink23@gmail.com<br>📞 Phone: +267 76233718</p>
+        </div>
+        
+        <button class="btn-close" onclick="closePrivacy()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TERMS MODAL ==================== -->
+  <div class="modal" id="termsModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeTerms()">&times;</button>
+      <div style="padding: 20px;">
+        <h2 style="font-size: 24px; color: var(--primary); margin-bottom: 20px;">Terms of Service</h2>
+        
+        <div class="modal-body">
+          <h3>Booking Terms</h3>
+          <p>Accolink connects you directly with guesthouse owners. We are not responsible for the quality of services provided by individual guesthouses.</p>
+          
+          <h3>Liability</h3>
+          <p> We provide the platform but are not liable for any disputes between you and guesthouse owners.</p>
+          
+          <h3>Contact Information</h3>
+          <p>For disputes or concerns, please contact the guesthouse directly or reach out to Accolink support at accolink23@gmail.com</p>
+        </div>
+        
+        <button class="btn-close" onclick="closeTerms()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
   <script>
     // ==================== CONFIGURATION ====================
     const SUPABASE_URL = 'https://bqaebgtvwxpdaqwdytss.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxYWViZ3R2d3hwZGFxd2R5dHNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MjIzNTIsImV4cCI6MjA4NjA5ODM1Mn0.gvhaJqDncopmuSzw3fs91rS87G2--bDtvZeWEEg8mno';
-    const CONTACT_PHONE = '+267 76233718';
-    const WHATSAPP_NUMBER = '26776233718'; // Remove + for WhatsApp
 
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let currentPage = 1;
-    const itemsPerPage = 12;
+    // ==================== STATE ====================
+    let currentCity = 'all';
     let allGuesthouses = [];
-    let displayedGuesthouses = [];
-    let currentFilter = 'all';
-    let currentBookingData = { houseName: '', phone: '', city: '', email: '' };
+    let displayedCount = 0;
+    const ITEMS_PER_PAGE = 15;
+    let currentBookingData = {};
+    let currentDetailGuesthouse = null;
+    let currentImageIndex = 0;
     let touchStartX = 0;
 
-    // ==================== INITIALIZATION ====================
-    async function init() {
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      registerServiceWorker();
+      initMobileMenu();
+      loadGuesthouses();
+      setupCarouselSwipe();
+    });
+
+    // ==================== SERVICE WORKER ====================
+    function registerServiceWorker() {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').catch(e => console.log('SW registration failed:', e));
+        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error:', err));
       }
-      await loadGuesthouses();
     }
 
-    // ==================== LOAD DATA ====================
+    // ==================== MOBILE MENU ====================
+    function initMobileMenu() {
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+        });
+      });
+    }
+
+    // ==================== CAROUSEL SWIPE ====================
+    function setupCarouselSwipe() {
+      const carousel = document.getElementById('carouselContainer');
+      carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+      });
+      carousel.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        if (touchStartX - touchEndX > 50) nextImage();
+        if (touchEndX - touchStartX > 50) prevImage();
+      });
+    }
+
+    // ==================== LOAD GUESTHOUSES ====================
     async function loadGuesthouses() {
       try {
-        const start = (currentPage - 1) * itemsPerPage;
-
-        const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/guesthouses?order=id.desc&limit=${itemsPerPage}&offset=${start}`,
-          {
-            headers: {
-              'apikey': SUPABASE_KEY,
-              'Authorization': `Bearer ${SUPABASE_KEY}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) throw new Error('Failed to fetch');
+        const { data, error } = await supabaseClient
+          .from('guesthouses')
+          .select('*')
+          .order('created_at', { ascending: false });
         
-        const data = await response.json();
-        
-        if (currentPage === 1) {
-          allGuesthouses = data;
-        } else {
-          allGuesthouses = [...allGuesthouses, ...data];
-        }
-
-        applyFilters();
-        document.getElementById('loadMoreBtn').style.display = data.length === itemsPerPage ? 'block' : 'none';
+        if (error) throw error;
+        allGuesthouses = data || [];
+        displayedCount = 0;
+        displayMoreGuesthouses();
       } catch (error) {
-        console.error('Error loading guesthouses:', error);
-        document.getElementById('guesthouses').innerHTML = 
-          '<div class="no-results" style="grid-column: 1 / -1;">Unable to load guesthouses. Please try again later.</div>';
+        console.error('Error:', error);
+        document.getElementById('guesthousesGrid').innerHTML = 
+          '<div class="loading" style="color: red;">Failed to load guesthouses</div>';
       }
     }
 
-    // ==================== FILTERING ====================
-    function filterByCity(city) {
-      currentFilter = city;
-      currentPage = 1;
-      
-      document.querySelectorAll('.city-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      applyFilters();
-    }
+    // ==================== DISPLAY MORE ====================
+    function displayMoreGuesthouses() {
+      const grid = document.getElementById('guesthousesGrid');
+      const loadBtn = document.getElementById('loadMoreBtn');
 
-    function filterGuesthouses() {
-      currentPage = 1;
-      applyFilters();
-    }
-
-    function applyFilters() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      
-      displayedGuesthouses = allGuesthouses.filter(gh => {
-        const matchesCity = currentFilter === 'all' || (gh.city && gh.city === currentFilter);
-        const matchesSearch = !searchTerm || 
-          (gh.name && gh.name.toLowerCase().includes(searchTerm)) ||
-          (gh.city && gh.city.toLowerCase().includes(searchTerm)) ||
-          (gh.location && gh.location.toLowerCase().includes(searchTerm));
-        
-        return matchesCity && matchesSearch;
-      });
-
-      renderGuesthouses(displayedGuesthouses);
-    }
-
-    // ==================== RENDER GUESTHOUSES ====================
-    function renderGuesthouses(guesthouses) {
-      const container = document.getElementById('guesthouses');
-      
-      if (guesthouses.length === 0) {
-        container.innerHTML = '<div class="no-results" style="grid-column: 1 / -1;">No guesthouses found. Try a different search or filter.</div>';
-        return;
+      let filtered = allGuesthouses;
+      if (currentCity !== 'all') {
+        filtered = filtered.filter(gh => gh.city === currentCity);
       }
 
-      container.innerHTML = guesthouses.map(gh => {
-        const mainImage = gh.images && gh.images.length > 0 ? gh.images[0] : 'https://via.placeholder.com/400x300?text=No+Image';
-        const price = gh.price || gh.min_price || 0;
-        const rating = gh.rating ? gh.rating.toFixed(1) : '4.8';
-        const amenityList = (gh.amenities || []).slice(0, 3).map(a => 
-          `<span class="amenity-tag">${a}</span>`
-        ).join('');
-        const moreAmenities = (gh.amenities || []).length > 3 ? 
-          `<span class="amenity-tag">+${(gh.amenities || []).length - 3}</span>` : '';
+      if (displayedCount === 0) grid.innerHTML = '';
 
-        return `
-          <div class="card">
-            <div class="card-image-container">
-              <img src="${mainImage}" alt="${gh.name}" class="card-image" 
-                   onerror="this.src='https://via.placeholder.com/400x300?text=Image+Error'">
-              <div class="card-rating">⭐ ${rating}</div>
-            </div>
-            <div class="card-content">
-              <h3 class="card-title">${gh.name || 'Guesthouse'}</h3>
-              <p class="card-location">
-                <span>📍</span>
-                ${gh.city || 'Location not specified'}
-              </p>
-              <p class="card-price">From P${price}/night</p>
-              <div class="amenities">
-                ${amenityList}
-                ${moreAmenities}
-              </div>
-              <div class="card-actions">
-                <button class="card-action-btn card-view-btn" onclick="showDetail(${gh.id})">View Details</button>
-                <button class="card-action-btn card-book-btn" onclick="prepareBooking(${gh.id})">Book Now</button>
-              </div>
-            </div>
+      const start = displayedCount;
+      const end = Math.min(displayedCount + ITEMS_PER_PAGE, filtered.length);
+      
+      const html = filtered.slice(start, end).map(gh => `
+        <div class="guesthouse-card">
+          <img src="${gh.images?.[0] || 'https://via.placeholder.com/300x160'}" 
+               alt="${gh.name}" class="guesthouse-image" loading="lazy">
+          <div class="guesthouse-content">
+            <h3 class="guesthouse-name">${gh.name}</h3>
+            <p class="guesthouse-city">
+              <span class="location-pin">📍</span> ${gh.city}
+            </p>
+            <p class="guesthouse-price">P${gh.price}/night</p>
+            <button class="btn-view-more" onclick="openDetailModal(${gh.id})">
+              View More <i class="fas fa-arrow-right"></i>
+            </button>
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
+      
+      grid.innerHTML += html;
+      displayedCount = end;
+      loadBtn.style.display = displayedCount >= filtered.length ? 'none' : 'block';
     }
 
-    // ==================== DETAIL VIEW ====================
-    function showDetail(id) {
+    // ==================== LOAD MORE ====================
+    function loadMore() {
+      displayMoreGuesthouses();
+    }
+
+    // ==================== FILTER BY CITY ====================
+    function filterByCity(city) {
+      currentCity = city;
+      displayedCount = 0;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event?.target?.classList.add('active');
+      displayMoreGuesthouses();
+    }
+
+    // ==================== OPEN DETAIL MODAL ====================
+    function openDetailModal(id) {
       const gh = allGuesthouses.find(g => g.id === id);
       if (!gh) return;
 
-      const images = gh.images || [];
-      const amenities = gh.amenities || [];
-      const rating = gh.rating ? gh.rating.toFixed(1) : '4.8';
-      const reviews = gh.reviews || 124;
+      currentDetailGuesthouse = gh;
+      currentImageIndex = 0;
 
-      let carouselHTML = '';
-      if (images.length > 0) {
-        carouselHTML = `
-          <div class="carousel">
-            <div class="carousel-main" id="carouselMain">
-              <img id="mainImage" src="${images[0]}" alt="${gh.name}" class="carousel-image">
-              ${images.length > 1 ? `
-                <button class="carousel-nav carousel-prev" onclick="prevImage(event)">❮</button>
-                <button class="carousel-nav carousel-next" onclick="nextImage(event)">❯</button>
-                <div class="carousel-counter"><span id="imageCounter">1</span>/${images.length}</div>
-              ` : ''}
-            </div>
-            ${images.length > 1 ? `
-              <div class="carousel-thumbnails">
-                ${images.map((img, idx) => `
-                  <button class="thumbnail ${idx === 0 ? 'active' : ''}" onclick="goToImage(${idx})">
-                    <img src="${img}" alt="Thumbnail ${idx + 1}">
-                  </button>
-                `).join('')}
-              </div>
-            ` : ''}
-          </div>
-        `;
-        window.currentImageIndex = 0;
-        window.currentCarouselImages = images;
-      }
+      document.getElementById('detailName').textContent = gh.name;
+      document.getElementById('detailCity').textContent = gh.city;
+      document.getElementById('detailPrice').textContent = gh.price;
+      document.getElementById('detailDescription').textContent = gh.description || 'A wonderful guesthouse experience awaits you.';
+      
+      const amenitiesHTML = (gh.amenities || []).map(a => `<div class="amenity-badge">${a}</div>`).join('');
+      document.getElementById('detailAmenities').innerHTML = amenitiesHTML;
 
-      let contactButtonsHTML = '';
-      if (gh.whatsapp || gh.phone || gh.email) {
-        if (gh.whatsapp) {
-          contactButtonsHTML += `
-            <button class="contact-btn contact-btn-whatsapp" onclick="bookViaWhatsApp(${gh.id})">
-              <i class="fab fa-whatsapp"></i> WhatsApp
-            </button>
-          `;
-        }
-        if (gh.email) {
-          contactButtonsHTML += `
-            <a href="mailto:${gh.email}?subject=Guesthouse Booking Inquiry - ${gh.name}" class="contact-btn contact-btn-email" onclick="trackEmailClick(${gh.id})">
-              <i class="fas fa-envelope"></i> Email
-            </a>
-          `;
-        }
-        if (gh.phone) {
-          contactButtonsHTML += `
-            <a href="tel:${gh.phone}" class="contact-btn contact-btn-phone" onclick="trackPhoneClick(${gh.id})">
-              <i class="fas fa-phone"></i> Call
-            </a>
-          `;
-        }
-      }
+      const images = gh.images || ['https://via.placeholder.com/600x400'];
+      document.getElementById('imageTotalCounter').textContent = images.length;
 
-      document.getElementById('detailView').innerHTML = `
-        <div class="detail-header">
-          <button class="detail-back-btn" onclick="closeDetail()">← Back</button>
-          <button class="detail-close-btn" onclick="closeDetail()">×</button>
-        </div>
-        
-        <div class="detail-content">
-          ${carouselHTML}
+      const dotsHTML = images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToImage(${i})"></div>`).join('');
+      document.getElementById('carouselDots').innerHTML = dotsHTML;
 
-          <h2 class="detail-title">${gh.name || 'Guesthouse'}</h2>
-          <p class="detail-location">
-            <span>📍</span>
-            ${gh.city || 'City not specified'} • ${gh.location || 'Location'}
-          </p>
-          <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-            <span style="color: var(--accent); font-weight: 700;">⭐ ${rating}</span>
-            <span style="color: var(--text-light); font-size: 14px;">(${reviews} reviews)</span>
-          </div>
-          <div class="detail-price-badge">From P${gh.price || gh.min_price || 0}/night</div>
-
-          <p class="detail-description">${gh.description || 'Experience comfort and hospitality at this beautiful guesthouse.'}</p>
-
-          ${amenities.length > 0 ? `
-            <h3 class="detail-subtitle">🏆 Amenities & Features</h3>
-            <div class="amenities-grid">
-              ${amenities.map(a => `<div class="amenity-badge">${a}</div>`).join('')}
-            </div>
-          ` : ''}
-
-          <div class="contact-section">
-            <h3>Ready to Book?</h3>
-            <p>Get in touch with the property to confirm availability and make your reservation.</p>
-            <div class="contact-buttons">
-              ${contactButtonsHTML}
-            </div>
-            <div class="social-links">
-              <button class="social-link" onclick="openSocial('facebook')" title="Share on Facebook">
-                <i class="fab fa-facebook-f"></i>
-              </button>
-              <button class="social-link" onclick="openSocial('instagram')" title="Share on Instagram">
-                <i class="fab fa-instagram"></i>
-              </button>
-              <button class="social-link" onclick="openSocial('tiktok')" title="Share on TikTok">
-                <i class="fab fa-tiktok"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('detailOverlay').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      updateCarousel();
+      document.getElementById('detailModal').classList.add('active');
     }
 
-    // ==================== CAROUSEL FUNCTIONS ====================
-    function nextImage(e) {
-      if (e) e.preventDefault();
-      if (!window.currentCarouselImages) return;
-      window.currentImageIndex = (window.currentImageIndex + 1) % window.currentCarouselImages.length;
+    // ==================== CLOSE DETAIL MODAL ====================
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.remove('active');
+    }
+
+    // ==================== CAROUSEL NAV ====================
+    function nextImage() {
+      if (!currentDetailGuesthouse?.images) return;
+      currentImageIndex = (currentImageIndex + 1) % currentDetailGuesthouse.images.length;
       updateCarousel();
     }
 
-    function prevImage(e) {
-      if (e) e.preventDefault();
-      if (!window.currentCarouselImages) return;
-      window.currentImageIndex = (window.currentImageIndex - 1 + window.currentCarouselImages.length) % window.currentCarouselImages.length;
+    function prevImage() {
+      if (!currentDetailGuesthouse?.images) return;
+      currentImageIndex = (currentImageIndex - 1 + currentDetailGuesthouse.images.length) % currentDetailGuesthouse.images.length;
       updateCarousel();
     }
 
     function goToImage(index) {
-      window.currentImageIndex = index;
+      currentImageIndex = index;
       updateCarousel();
     }
 
     function updateCarousel() {
-      if (!window.currentCarouselImages) return;
-      const mainImageEl = document.getElementById('mainImage');
-      const counterEl = document.getElementById('imageCounter');
-      
-      if (mainImageEl) {
-        mainImageEl.src = window.currentCarouselImages[window.currentImageIndex];
-      }
-      if (counterEl) {
-        counterEl.textContent = window.currentImageIndex + 1;
-      }
-      
-      document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
-        thumb.classList.toggle('active', idx === window.currentImageIndex);
+      const images = currentDetailGuesthouse?.images || [];
+      if (images.length === 0) return;
+
+      document.getElementById('carouselImage').src = images[currentImageIndex];
+      document.getElementById('imageCounter').textContent = currentImageIndex + 1;
+
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentImageIndex);
       });
     }
 
-    // ==================== BOOKING MODAL ====================
-    function prepareBooking(id) {
-      const gh = allGuesthouses.find(g => g.id === id);
-      if (!gh) return;
-      
+    // ==================== PREPARE BOOKING ====================
+    function prepareBooking(type) {
+      if (!currentDetailGuesthouse) return;
       currentBookingData = {
-        houseName: gh.name,
-        phone: gh.whatsapp || gh.phone,
-        city: gh.city,
-        email: gh.email
+        id: currentDetailGuesthouse.id,
+        name: currentDetailGuesthouse.name,
+        phone: currentDetailGuesthouse.phone_number,
+        city: currentDetailGuesthouse.city,
+        type
       };
-      
-      document.getElementById('firstName').value = '';
-      document.getElementById('lastName').value = '';
-      document.getElementById('phoneNumber').value = '';
-      document.getElementById('bookingModal').classList.add('active');
+      closeDetailModal();
+      document.getElementById('leadModal').classList.add('active');
     }
 
-    function bookViaWhatsApp(id) {
-      const gh = allGuesthouses.find(g => g.id === id);
-      if (!gh) return;
-      
-      currentBookingData = {
-        houseName: gh.name,
-        phone: gh.whatsapp || gh.phone,
-        city: gh.city,
-        email: gh.email
-      };
-      
-      document.getElementById('firstName').value = '';
-      document.getElementById('lastName').value = '';
-      document.getElementById('phoneNumber').value = '';
-      document.getElementById('bookingModal').classList.add('active');
-    }
+    // ==================== SUBMIT LEAD ====================
+    async function submitLead(event) {
+      event.preventDefault();
+      const first = document.getElementById('firstName').value.trim();
+      const last = document.getElementById('lastName').value.trim();
+      const phone = document.getElementById('phoneNumber').value.trim();
 
-    function trackPhoneClick(id) {
-      gtag('event', 'phone_click', { guesthouse_id: id });
-    }
-
-    function trackEmailClick(id) {
-      gtag('event', 'email_click', { guesthouse_id: id });
-    }
-
-    async function submitBooking() {
-      const firstName = document.getElementById('firstName').value.trim();
-      const lastName = document.getElementById('lastName').value.trim();
-      const phoneNumber = document.getElementById('phoneNumber').value.trim();
-
-      if (!firstName || !lastName || !phoneNumber) {
-        alert('Please fill in all fields.');
+      if (!first || !last || !phone) {
+        alert('Please fill all fields');
         return;
       }
 
       try {
-        // Save to Supabase
-        const { error } = await supabase
-          .from('leads')
-          .insert([{
-            first_name: firstName,
-            last_name: lastName,
-            phone_number: phoneNumber,
-            action_type: 'whatsapp',
-            guesthouse_name: currentBookingData.houseName,
-            city: currentBookingData.city,
-            created_at: new Date().toISOString()
-          }]);
+        await supabaseClient.from('leads').insert([{
+          first_name: first,
+          last_name: last,
+          phone_number: phone,
+          action_type: currentBookingData.type,
+          guesthouse_name: currentBookingData.name,
+          city: currentBookingData.city,
+          created_at: new Date().toISOString()
+        }]);
 
-        if (error) throw error;
+        closeLeadModal();
 
-        // Track event
-        gtag('event', 'booking_submitted', {
-          guesthouse: currentBookingData.houseName,
-          city: currentBookingData.city
-        });
-
-        // Close modal
-        closeBookingModal();
-
-        // Open WhatsApp
-        const message = `Hello! I'm ${firstName} ${lastName}. I'm interested in booking a room at ${currentBookingData.houseName}. Please let me know about availability and pricing.`;
-        const phoneClean = currentBookingData.phone.replace(/\D/g, '');
-        window.open(`https://wa.me/${phoneClean}?text=${encodeURIComponent(message)}`, '_blank');
+        if (currentBookingData.type === 'whatsapp') {
+          const msg = `Hi! I'm ${first} ${last}. I'm interested in booking at ${currentBookingData.name}.`;
+          window.open(`https://wa.me/${currentBookingData.phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+          window.location.href = `tel:${currentBookingData.phone}`;
+        }
       } catch (error) {
-        console.error('Error submitting booking:', error);
-        alert('Error processing booking. Please try again.');
+        console.error('Error:', error);
+        alert('Error processing booking');
       }
     }
 
-    function closeBookingModal() {
-      document.getElementById('bookingModal').classList.remove('active');
+    // ==================== MODALS ====================
+    function closeLeadModal() {
+      document.getElementById('leadModal').classList.remove('active');
+      document.getElementById('leadForm').reset();
     }
 
-    function closeDetail() {
-      document.getElementById('detailOverlay').classList.remove('active');
-    }
-
-    // ==================== PRIVACY MODAL ====================
     function showPrivacy() {
       document.getElementById('privacyModal').classList.add('active');
     }
@@ -1688,40 +1513,19 @@
       document.getElementById('privacyModal').classList.remove('active');
     }
 
-    // ==================== SOCIAL MEDIA ====================
-    function openSocial(platform) {
-      const platforms = {
-        facebook: 'https://www.facebook.com/accolink',
-        instagram: 'https://www.instagram.com/accolink',
-        tiktok: 'https://www.tiktok.com/@accolink'
-      };
-      window.open(platforms[platform], '_blank');
+    function showTerms() {
+      document.getElementById('termsModal').classList.add('active');
     }
 
-    function scrollToAbout() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function closeTerms() {
+      document.getElementById('termsModal').classList.remove('active');
     }
 
-    // ==================== PAGINATION ====================
-    function loadMore() {
-      currentPage++;
-      loadGuesthouses();
-    }
-
-    // ==================== INIT ====================
-    window.addEventListener('load', init);
-
-    // Close modals when clicking outside
-    document.getElementById('bookingModal').addEventListener('click', function(e) {
-      if (e.target === this) closeBookingModal();
-    });
-
-    document.getElementById('detailOverlay').addEventListener('click', function(e) {
-      if (e.target === this) closeDetail();
-    });
-
-    document.getElementById('privacyModal').addEventListener('click', function(e) {
-      if (e.target === this) closePrivacy();
+    document.addEventListener('click', (e) => {
+      if (e.target.id === 'leadModal') closeLeadModal();
+      if (e.target.id === 'privacyModal') closePrivacy();
+      if (e.target.id === 'termsModal') closeTerms();
+      if (e.target.id === 'detailModal') closeDetailModal();
     });
   </script>
 </body>
